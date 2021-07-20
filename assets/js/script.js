@@ -15,14 +15,40 @@
 var quizHeadingEl = document.querySelector(".quiz-heading");
 var quizBodyEl = document.querySelector(".quiz-body");
 var beginQuizBtn = document.querySelector("#begin-quiz");
+var timerCountdown = document.querySelector("#timer-countdown");
 
 // DATA ====================================================
 var questionsArray = [];
+var totalAllowedTime = 60; // Will be set to 1hr later
 
 // FUNCTIONS ===============================================
 function beginQuiz(event) {
 	event.preventDefault();
+
+	// Start the countdown timer
+	countdownTimer();
+
 	quizHeadingEl.innerHTML = "<h3>Q1: What is JavaScript?</h3>";
+}
+
+// Create the countdown timer
+function countdownTimer() {
+	var timeInterval = setInterval(function () {
+		// Decrement the time by 1
+		totalAllowedTime--;
+
+		var timeValue =
+			totalAllowedTime < 2
+				? `${totalAllowedTime} Second`
+				: `${totalAllowedTime} Seconds`;
+		// Update the timer on DOM
+		timerCountdown.textContent = timeValue;
+
+		// Clear interval once timer reaches zero
+		if (totalAllowedTime === 0) {
+			clearInterval(timeInterval);
+		}
+	}, 1000);
 }
 
 // INITIALIZATION ==========================================
