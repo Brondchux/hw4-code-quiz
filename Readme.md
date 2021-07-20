@@ -8,14 +8,14 @@ This project is intended run as a quiz application, to test candidtates on their
 
 ## Table of Content
 
-1. [Project Description]()
-2. [Author Info]()
-3. [User Story]()
-4. [Acceptance Criteria]()
-5. [Mock-Up Preview]()
-6. [Useful Links]()
-7. [Credits]()
-8. [Licence]()
+1. [Project Description](https://github.com/Brondchux/hw4-code-quiz#project-description)
+2. [Author Info](https://github.com/Brondchux/hw4-code-quiz#author-info)
+3. [User Story](https://github.com/Brondchux/hw4-code-quiz#user-story)
+4. [Acceptance Criteria](https://github.com/Brondchux/hw4-code-quiz#acceptance-criteria)
+5. [Mock-Up Preview](https://github.com/Brondchux/hw4-code-quiz#mock-up-preview)
+6. [Useful Links](https://github.com/Brondchux/hw4-code-quiz#useful-links)
+7. [Credits](https://github.com/Brondchux/hw4-code-quiz#credits)
+8. [Licence](https://github.com/Brondchux/hw4-code-quiz#licence)
 
 ---
 
@@ -67,8 +67,8 @@ The image below shows the preview of my completed code quiz in a gif file format
 
 ## Useful Links
 
-1. 🗂 [Click me to view github repository for this project](https://github.com/Brondchux/hw3-password-generator)
-2. 🌍 [Click me to view deployed application on github pages](https://brondchux.github.io/hw3-password-generator)
+1. 🗂 [Click me to view github repository for this project](https://github.com/Brondchux/hw4-code-quiz)
+2. 🌍 [Click me to view deployed application on github pages](https://brondchux.github.io/hw4-code-quiz/)
 
 ---
 
