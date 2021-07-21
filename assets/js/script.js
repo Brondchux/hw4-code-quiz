@@ -21,7 +21,7 @@ var timerCountdown = document.querySelector("#timer-countdown");
 // DATA ====================================================
 var questionsArray = [];
 var highscoreArray = [];
-var totalAllowedTime = 60; // Will be set to 1hr later
+var totalAllowedTime = 3; // Will be set to 1hr later
 var userCurrentScore = 0;
 var questionIndex = 0;
 var newQuestion = {
@@ -97,7 +97,7 @@ function beginQuiz(event) {
 	displayNextQuestion();
 
 	// Compare answers
-	var nextQuestionBtn = document.querySelector(".next-button");
+	var nextQuestionBtn = document.querySelector("#next-button");
 	if (nextQuestionBtn) {
 		nextQuestionBtn.addEventListener("click", compareAnswers);
 	}
@@ -106,9 +106,6 @@ function beginQuiz(event) {
 // Create the countdown timer
 function countdownTimer() {
 	var timeInterval = setInterval(function () {
-		// Decrement the time by 1
-		totalAllowedTime--;
-
 		var timeValue =
 			totalAllowedTime < 2
 				? `${totalAllowedTime} Second`
@@ -116,10 +113,16 @@ function countdownTimer() {
 		// Update the timer on DOM
 		timerCountdown.textContent = timeValue;
 
+		// Check if quiz is done
+		quizOver();
+
 		// Clear interval once timer reaches zero
 		if (totalAllowedTime === 0) {
 			clearInterval(timeInterval);
 		}
+
+		// Decrement the time by 1
+		totalAllowedTime--;
 	}, 1000);
 }
 
@@ -183,7 +186,8 @@ function fetchQuestion(theQuestionIndex) {
 
 	// Create the next question button
 	var nextQuestionBtn = document.createElement("button");
-	nextQuestionBtn.setAttribute("class", "next-button");
+	nextQuestionBtn.setAttribute("class", "fancy-button");
+	nextQuestionBtn.setAttribute("id", "next-button");
 	nextQuestionBtn.setAttribute("type", "button");
 
 	// Build the next question button
@@ -232,7 +236,7 @@ function updateHighscore(theUserAnswer, theCorrectAnswer) {
 
 	// Deduct 10 seconds from user remaining time
 	else {
-		totalAllowedTime -= 10;
+		totalAllowedTime = totalAllowedTime > 9 ? totalAllowedTime - 10 : 0;
 	}
 
 	// Update the highscore on DOM
@@ -242,6 +246,7 @@ function updateHighscore(theUserAnswer, theCorrectAnswer) {
 	displayNextQuestion();
 }
 
+// Display the next question to user by increamenting the question index
 function displayNextQuestion() {
 	// Re-run the fecth question function if our index exists within the question array
 	if (questionIndex < questionsArray.length) {
@@ -253,6 +258,50 @@ function displayNextQuestion() {
 	// Increment the question index for next question
 	questionIndex++;
 }
+
+// Runs when the user answers all questions or time is over
+function quizOver() {
+	// Check if timer is over or user answered all questions already
+	if (totalAllowedTime === 0 || questionIndex === questionsArray.length) {
+		// Display you're done message
+		quizHeadingEl.innerHTML = `<h3>You're done!</h3>`;
+
+		// Create a <div> tag for flex design
+		var userTextDiv = document.createElement("div");
+		userTextDiv.setAttribute("class", "user-initials");
+
+		// Create the <label> tag
+		var userTextLabel = document.createElement("label");
+		userTextLabel.setAttribute("for", "userInitials");
+		// Build the user text label
+		userTextLabel.textContent = "Enter your initials to save your score!";
+
+		// Create the <input> tag
+		var userTextInput = document.createElement("input");
+		userTextInput.setAttribute("type", "text");
+		userTextInput.setAttribute("id", "userInitials");
+		userTextInput.setAttribute("placeholder", "Initials here");
+
+		// Create the save initials button
+		var saveInitialsBtn = document.createElement("button");
+		saveInitialsBtn.setAttribute("class", "fancy-button");
+		saveInitialsBtn.setAttribute("id", "save-button");
+		saveInitialsBtn.setAttribute("type", "button");
+
+		// Build the next question button
+		saveInitialsBtn.textContent = "Save Score";
+
+		// Place the tags on to the DOM
+		userTextDiv.appendChild(userTextLabel);
+		userTextDiv.appendChild(userTextInput);
+		quizBodyEl.innerHTML = "";
+		quizBodyEl.appendChild(userTextDiv);
+		quizBodyEl.appendChild(saveInitialsBtn);
+	}
+}
+
+// Receive and store users initials
+function storeUserInitials() {}
 
 // INITIALIZATION ==========================================
 
