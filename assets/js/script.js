@@ -7,9 +7,10 @@
 //	 		-If user selects the correct answer, increase users score on score board
 //	 		-If user selects the wrong answer, deduct 10 seconds from users time left
 // 4. After the user answers a question, another question should be displayed to user
-// 5. Quiz is over when the user is done answering all questions OR the timer gets to zero
+// 5. Quiz is over when the user is done attempting all questions OR the timer gets to zero
 // 6. User is now prompted to enter their initials to save their score
 // 7. Scores of past candidates are displayed on the scoreboard whenever the highscore link is clicked
+// 8. If user already played the game before, only update their highscore if their newest score is higher
 
 // DEPENDENCIES (DOM Elements) =============================
 var quizHeadingEl = document.querySelector(".quiz-heading");
@@ -311,8 +312,53 @@ function quizOver() {
 // Receive and store users initials
 function storeUserInitials() {
 	// Retrieve the input value
-	var userInitials = document.querySelector("#userInitials");
-	console.log("userInitials: ", userInitials.value);
+	var userInitials = document
+		.querySelector("#userInitials")
+		.value.toLowerCase();
+
+	// Create user (candidate / player) object
+	var userScoreObject = {
+		initials: userInitials,
+		score: userCurrentScore,
+	};
+
+	// Fetch our list of previous players and append this incoming new player object unto the array
+	var currentScoresArray = fetchHighscores() ? fetchHighscores() : [];
+	var incomingScoresArray = [userScoreObject];
+	var combinedScoresArray = [...currentScoresArray, ...incomingScoresArray];
+
+	// If our player already played before, just update their highest score
+	if (currentScoresArray.length) {
+		var returningPlayerObj = currentScoresArray.find(
+			(scoreObject) => scoreObject.initials.toLowerCase() === userInitials
+		);
+		// Only update the highscore if the players newest score is greater than their last score
+		if (returningPlayerObj && userCurrentScore > returningPlayerObj.score) {
+			var updatedScoresArray = currentScoresArray.filter(
+				(scoreObject) => scoreObject.initials.toLowerCase() !== userInitials
+			);
+
+			// Combine the updated score array and the incoming score array
+			combinedScoresArray = [...updatedScoresArray, ...incomingScoresArray];
+		}
+	}
+
+	// Store local storage
+	storeHighscores(combinedScoresArray);
+}
+
+// Save our highscores to local storage
+function storeHighscores(newScoresArray) {
+	// Ensure the high scores array was provided else quit running this function
+	if (!newScoresArray) return;
+
+	// Store highscores in localstorage
+	localStorage.setItem("highscores", JSON.stringify(newScoresArray));
+}
+
+// Fetch our highscores from local storage
+function fetchHighscores() {
+	return JSON.parse(localStorage.getItem("highscores"));
 }
 
 // INITIALIZATION ==========================================
