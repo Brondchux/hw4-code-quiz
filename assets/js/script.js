@@ -21,7 +21,9 @@ var timerCountdown = document.querySelector("#timer-countdown");
 // DATA ====================================================
 var questionsArray = [];
 var highscoreArray = [];
-var totalAllowedTime = 60; // Will be set to 1hr later
+var totalQuestions = 0;
+var attemptedQuestions = 0;
+var totalAllowedTime = 10; // Will be set to 1hr later
 var userCurrentScore = 0;
 var questionIndex = 0;
 var newQuestion = {
@@ -95,18 +97,6 @@ function beginQuiz(event) {
 
 	// Display question
 	displayNextQuestion();
-
-	// Compare answers
-	var nextQuestionBtn = document.querySelector("#next-button");
-	if (nextQuestionBtn) {
-		nextQuestionBtn.addEventListener("click", compareAnswers);
-	}
-
-	// Store user initials
-	var saveInitialsBtnCall = document.querySelector("#save-button");
-	if (saveInitialsBtnCall) {
-		saveInitialsBtnCall.addEventListener("click", storeUserInitials);
-	}
 }
 
 // Create the countdown timer
@@ -139,6 +129,9 @@ function loadQuestions(questionObj) {
 
 	// Add new question
 	questionsArray.push(questionObj);
+
+	// Update our global total questions variable
+	totalQuestions = questionsArray.length;
 }
 
 // Retrieves each question and displays to user
@@ -201,6 +194,9 @@ function fetchQuestion(theQuestionIndex) {
 
 	// Place the next question button
 	quizBodyEl.appendChild(nextQuestionBtn);
+
+	// Add the function to trigger when clicked
+	nextQuestionBtn.addEventListener("click", compareAnswers);
 }
 
 // Compare users result and update highscore
@@ -231,6 +227,9 @@ function compareAnswers() {
 
 	// Update highscore
 	updateHighscore(userSelection, theCorrectAnswer);
+
+	// Increment the attempted questions
+	attemptedQuestions++;
 }
 
 // Modify the users highscore
@@ -267,8 +266,8 @@ function displayNextQuestion() {
 
 // Runs when the user answers all questions or time is over
 function quizOver() {
-	// Check if timer is over or user answered all questions already
-	if (totalAllowedTime === 0 || questionIndex === questionsArray.length) {
+	// Check if timer is over or user attempted all questions already
+	if (totalAllowedTime === 0 || attemptedQuestions === totalQuestions) {
 		// Display you're done message
 		quizHeadingEl.innerHTML = `<h3>You're done!</h3>`;
 
@@ -303,14 +302,17 @@ function quizOver() {
 		quizBodyEl.innerHTML = "";
 		quizBodyEl.appendChild(userTextDiv);
 		quizBodyEl.appendChild(saveInitialsBtn);
+
+		// Add the function to trigger when clicked
+		saveInitialsBtn.addEventListener("click", storeUserInitials);
 	}
 }
 
 // Receive and store users initials
 function storeUserInitials() {
 	// Retrieve the input value
-	// var userInitials = document.querySelector("#userInitials");
-	console.log("userInitials");
+	var userInitials = document.querySelector("#userInitials");
+	console.log("userInitials: ", userInitials.value);
 }
 
 // INITIALIZATION ==========================================
