@@ -20,6 +20,26 @@ var timerCountdown = document.querySelector("#timer-countdown");
 // DATA ====================================================
 var questionsArray = [];
 var totalAllowedTime = 60; // Will be set to 1hr later
+var questionIndex = 0;
+var newQuestion = {
+	questionId: 1,
+	questionText: "What is an Array?",
+	correctAnswer: "A",
+	answerOptions: [
+		{
+			optionText: "A gathering of books",
+			optionLabel: "A",
+		},
+		{
+			optionText: "A collection of elements",
+			optionLabel: "B",
+		},
+		{
+			optionText: "A mobile structure",
+			optionLabel: "C",
+		},
+	],
+};
 
 // FUNCTIONS ===============================================
 function beginQuiz(event) {
@@ -28,7 +48,8 @@ function beginQuiz(event) {
 	// Start the countdown timer
 	countdownTimer();
 
-	quizHeadingEl.innerHTML = "<h3>Q1: What is JavaScript?</h3>";
+	// Display question
+	fetchQuestion();
 }
 
 // Create the countdown timer
@@ -51,5 +72,70 @@ function countdownTimer() {
 	}, 1000);
 }
 
+// Load up questions into questions array
+function loadQuestions(questionObj) {
+	// Ensure a question object was supplied
+	if (!questionObj) return;
+
+	// Add new question
+	questionsArray.push(questionObj);
+}
+
+// Retrieves each question and displays to user
+function fetchQuestion() {
+	// Ensure there are questions available in the question array
+	if (!questionsArray.length) return;
+
+	// Fecth active question from array using the global question index
+	var currentQuestion = questionsArray[questionIndex];
+
+	// Display the question
+	quizHeadingEl.innerHTML = `<h3>${currentQuestion.questionText}</h3>`;
+
+	// Create the <ul> tag
+	var ulEl = document.createElement("ul");
+
+	// Display the question options
+	currentQuestion.answerOptions.forEach((answerElement) => {
+		// Create the li tag
+		var liEl = document.createElement("li");
+
+		// Create the label tag
+		var labelEl = document.createElement("label");
+		labelEl.setAttribute("for", answerElement.optionLabel);
+
+		// Build the label tag
+		labelEl.innerHTML = `${answerElement.optionText}`;
+
+		// Create the input [radio] tag
+		var radioEl = document.createElement("input");
+		radioEl.setAttribute("type", "radio");
+		radioEl.setAttribute("id", answerElement.optionLabel);
+		radioEl.setAttribute("name", currentQuestion.questionText);
+		radioEl.setAttribute("value", answerElement.optionLabel);
+		radioEl.setAttribute("data-selected", answerElement.optionLabel);
+
+		// Build the li element
+		liEl.appendChild(radioEl);
+		liEl.appendChild(labelEl);
+
+		// Build the ul element
+		ulEl.appendChild(liEl);
+	});
+
+	console.log(ulEl);
+
+	// Place the ul element
+	quizBodyEl.innerHTML = "";
+	quizBodyEl.appendChild(ulEl);
+
+	// Increment the question index for next question
+	questionIndex++;
+}
+
 // INITIALIZATION ==========================================
+// Load questions
+loadQuestions(newQuestion);
+
+// Start quiz
 beginQuizBtn.addEventListener("click", beginQuiz);

@@ -15,6 +15,7 @@ header {
 	justify-content: center;
 	background-color: var(--beige-color);
 	padding: 1%;
+	text-align: center;
 }
 
 header h1 {
@@ -71,4 +72,13 @@ main section button {
 	border: 2px solid var(--blackish-color);
 	border-radius: 5px;
 	cursor: pointer;
+}
+
+main section ul {
+	text-align: left;
+	margin-top: 5%;
+}
+
+main section ul li input[type="radio"] {
+	margin-right: 10px;
 }
