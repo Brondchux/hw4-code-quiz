@@ -21,11 +21,12 @@ var timerCountdown = document.querySelector("#timer-countdown");
 var questionsArray = [];
 var highscoreArray = [];
 var totalAllowedTime = 60; // Will be set to 1hr later
+var userCurrentScore = 0;
 var questionIndex = 0;
 var newQuestion = {
 	questionId: "Q1",
 	questionText: "What is an Array?",
-	correctAnswer: "A",
+	correctAnswer: "B",
 	answerOptions: [
 		{
 			optionText: "A gathering of books",
@@ -53,7 +54,7 @@ function beginQuiz(event) {
 	fetchQuestion();
 
 	// Compare answers
-	var nextQuestionBtn = document.querySelector(".next-button");
+	var nextQuestionBtn = document.querySelector("#next-button");
 	if (nextQuestionBtn) {
 		nextQuestionBtn.addEventListener("click", compareAnswers);
 	}
@@ -97,7 +98,7 @@ function fetchQuestion() {
 	var currentQuestion = questionsArray[questionIndex];
 
 	// Display the question
-	quizHeadingEl.innerHTML = `<h3>${currentQuestion.questionText}</h3>`;
+	quizHeadingEl.innerHTML = `<h3 data-qid="${currentQuestion.questionId}">${currentQuestion.questionText}</h3>`;
 
 	// Create the <ul> tag
 	var ulEl = document.createElement("ul");
@@ -137,7 +138,7 @@ function fetchQuestion() {
 
 	// Create the next question button
 	var nextQuestionBtn = document.createElement("button");
-	nextQuestionBtn.setAttribute("class", "next-button");
+	nextQuestionBtn.setAttribute("id", "next-button");
 	nextQuestionBtn.setAttribute("type", "button");
 
 	// Build the next question button
@@ -151,31 +152,50 @@ function fetchQuestion() {
 }
 
 // Compare users result and update highscore
-function compareAnswers(userSelection, questionId) {
+function compareAnswers() {
+	// Declare both values
+	var userSelection = null;
+	var questionId = null;
+
+	// Loop through all radio input tags to get users selection and our questionId
+	var inputElements = document.getElementsByTagName("input");
+	console.log(inputElements);
+
+	for (var i = 0; i < inputElements.length; i++) {
+		// update the users selection and question id
+		console.log(inputElements[i]);
+		if (inputElements[i].checked) {
+			userSelection = inputElements[i].value.toUpperCase();
+			questionId = inputElements[i].name.toUpperCase();
+		}
+	}
+
+	// Ensure we now have values for our variables
+	if (!userSelection && !questionId) return;
+
 	// Use the question id to fetch the question object
 	var questionObject = questionsArray.find(
 		(question) => question.questionId === questionId
 	);
-
-	// Capitalize both values
-	var theUserSelection = userSelection.toUpperCase();
 	var theCorrectAnswer = questionObject.correctAnswer.toUpperCase();
 
-	// Compare both values
-	if (theUserSelection === theCorrectAnswer) {
-		// Update highscore
-		updateHighscore();
-	}
+	console.log("userSelection: ", userSelection);
+	console.log("questionId: ", questionId);
+	console.log("theCorrectAnswer: ", theCorrectAnswer);
+
+	// Update highscore
+	updateHighscore(userSelection, theCorrectAnswer);
 }
 
 // Modify the users highscore
-function updateHighscore() {
-	var highscoreObj = {
-		user: "",
-		score: 0,
-	};
-	highscoreArray.push(highscoreObj);
-	console.log(highscoreArray);
+function updateHighscore(theUserAnswer, theCorrectAnswer) {
+	// Increment user score
+	if (theUserAnswer === theCorrectAnswer) {
+		return userCurrentScore++;
+	}
+
+	// Deduct 10 seconds from user remaining time
+	return (totalAllowedTime -= 10);
 }
 
 // INITIALIZATION ==========================================
