@@ -16,15 +16,17 @@ header {
 	background-color: var(--beige-color);
 	padding: 1%;
 	text-align: center;
+	height: 10vh;
 }
 
 header h1 {
+	margin: auto;
 	font-size: 2.5rem;
 }
 main {
 	display: flex;
 	flex-direction: column;
-	height: 70vh;
+	height: 85vh;
 }
 
 nav {
@@ -98,4 +100,48 @@ main section ul li input[type="radio"] {
 main section .next-button {
 	background-color: var(--blackish-color);
 	color: var(--beige-color);
+}
+
+footer {
+	display: flex;
+	height: 5vh;
+	background-color: var(--blackish-color);
+	color: var(--beige-color);
+}
+
+footer p {
+	margin: auto;
+	font-size: 0.8rem;
+}
+
+/* Media query for screens below 760px */
+@media screen and (max-width: 760px) {
+	* {
+		line-height: 1.2;
+	}
+
+	h1 {
+		font-size: 2rem !important;
+	}
+
+	h2 {
+		font-size: 1.7rem !important;
+	}
+
+	h3 {
+		font-size: 1.4rem !important;
+	}
+
+	nav {
+		padding: 2%;
+	}
+
+	main section {
+		margin: inherit;
+		padding: 0 5%;
+	}
+
+	.quiz-heading {
+		margin-top: 10%;
+	}
 }
