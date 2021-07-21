@@ -95,8 +95,7 @@ main section ul li input[type="radio"] {
 	margin-right: 10px;
 }
 
-main section #next-button {
+main section .next-button {
 	background-color: var(--blackish-color);
 	color: var(--beige-color);
-	margin-left: 0;
 }

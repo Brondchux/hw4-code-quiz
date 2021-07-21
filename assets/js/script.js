@@ -15,6 +15,7 @@
 var quizHeadingEl = document.querySelector(".quiz-heading");
 var quizBodyEl = document.querySelector(".quiz-body");
 var beginQuizBtn = document.querySelector("#begin-quiz");
+var highscoreBoard = document.querySelector("#highscore-board");
 var timerCountdown = document.querySelector("#timer-countdown");
 
 // DATA ====================================================
@@ -42,6 +43,48 @@ var newQuestion = {
 		},
 	],
 };
+var newQuestion2 = {
+	questionId: "Q2",
+	questionText: "What data type is this: 'Apple' ?",
+	correctAnswer: "C",
+	answerOptions: [
+		{
+			optionText: "Sting",
+			optionLabel: "A",
+		},
+		{
+			optionText: "Skring",
+			optionLabel: "B",
+		},
+		{
+			optionText: "String",
+			optionLabel: "C",
+		},
+	],
+};
+var newQuestion3 = {
+	questionId: "Q3",
+	questionText: "What is the result of 20 % 3 ?",
+	correctAnswer: "B",
+	answerOptions: [
+		{
+			optionText: "1",
+			optionLabel: "A",
+		},
+		{
+			optionText: "2",
+			optionLabel: "B",
+		},
+		{
+			optionText: "3",
+			optionLabel: "C",
+		},
+		{
+			optionText: "4",
+			optionLabel: "D",
+		},
+	],
+};
 
 // FUNCTIONS ===============================================
 function beginQuiz(event) {
@@ -51,10 +94,10 @@ function beginQuiz(event) {
 	countdownTimer();
 
 	// Display question
-	fetchQuestion();
+	displayNextQuestion();
 
 	// Compare answers
-	var nextQuestionBtn = document.querySelector("#next-button");
+	var nextQuestionBtn = document.querySelector(".next-button");
 	if (nextQuestionBtn) {
 		nextQuestionBtn.addEventListener("click", compareAnswers);
 	}
@@ -90,21 +133,24 @@ function loadQuestions(questionObj) {
 }
 
 // Retrieves each question and displays to user
-function fetchQuestion() {
+function fetchQuestion(theQuestionIndex) {
 	// Ensure there are questions available in the question array
 	if (!questionsArray.length) return;
 
 	// Fecth active question from array using the global question index
-	var currentQuestion = questionsArray[questionIndex];
+	var currentQuestion = questionsArray[theQuestionIndex];
 
 	// Display the question
-	quizHeadingEl.innerHTML = `<h3 data-qid="${currentQuestion.questionId}">${currentQuestion.questionText}</h3>`;
+	quizHeadingEl.innerHTML = `<h3>${currentQuestion.questionText}</h3>`;
 
 	// Create the <ul> tag
 	var ulEl = document.createElement("ul");
 
 	// Loop through and display the question options
-	currentQuestion.answerOptions.forEach((answerElement) => {
+	for (var i = 0; i < currentQuestion.answerOptions.length; i++) {
+		// Each answer element object
+		var answerElement = currentQuestion.answerOptions[i];
+
 		// Create the li tag
 		var liEl = document.createElement("li");
 
@@ -129,8 +175,7 @@ function fetchQuestion() {
 
 		// Build the ul element
 		ulEl.appendChild(liEl);
-	});
-	console.log(ulEl);
+	}
 
 	// Place the ul element
 	quizBodyEl.innerHTML = "";
@@ -138,7 +183,7 @@ function fetchQuestion() {
 
 	// Create the next question button
 	var nextQuestionBtn = document.createElement("button");
-	nextQuestionBtn.setAttribute("id", "next-button");
+	nextQuestionBtn.setAttribute("class", "next-button");
 	nextQuestionBtn.setAttribute("type", "button");
 
 	// Build the next question button
@@ -146,9 +191,6 @@ function fetchQuestion() {
 
 	// Place the next question button
 	quizBodyEl.appendChild(nextQuestionBtn);
-
-	// Increment the question index for next question
-	questionIndex++;
 }
 
 // Compare users result and update highscore
@@ -159,11 +201,9 @@ function compareAnswers() {
 
 	// Loop through all radio input tags to get users selection and our questionId
 	var inputElements = document.getElementsByTagName("input");
-	console.log(inputElements);
 
 	for (var i = 0; i < inputElements.length; i++) {
 		// update the users selection and question id
-		console.log(inputElements[i]);
 		if (inputElements[i].checked) {
 			userSelection = inputElements[i].value.toUpperCase();
 			questionId = inputElements[i].name.toUpperCase();
@@ -179,10 +219,6 @@ function compareAnswers() {
 	);
 	var theCorrectAnswer = questionObject.correctAnswer.toUpperCase();
 
-	console.log("userSelection: ", userSelection);
-	console.log("questionId: ", questionId);
-	console.log("theCorrectAnswer: ", theCorrectAnswer);
-
 	// Update highscore
 	updateHighscore(userSelection, theCorrectAnswer);
 }
@@ -191,17 +227,39 @@ function compareAnswers() {
 function updateHighscore(theUserAnswer, theCorrectAnswer) {
 	// Increment user score
 	if (theUserAnswer === theCorrectAnswer) {
-		return userCurrentScore++;
+		userCurrentScore++;
 	}
 
 	// Deduct 10 seconds from user remaining time
-	return (totalAllowedTime -= 10);
+	else {
+		totalAllowedTime -= 10;
+	}
+
+	// Update the highscore on DOM
+	highscoreBoard.textContent = userCurrentScore;
+
+	// Display next question to user
+	displayNextQuestion();
+}
+
+function displayNextQuestion() {
+	// Re-run the fecth question function if our index exists within the question array
+	if (questionIndex < questionsArray.length) {
+		// re-Call the fetch question function
+		console.log(`running fetchQuestion(${questionIndex})`);
+		fetchQuestion(questionIndex);
+	}
+
+	// Increment the question index for next question
+	questionIndex++;
 }
 
 // INITIALIZATION ==========================================
 
 // Load questions
 loadQuestions(newQuestion);
+loadQuestions(newQuestion2);
+loadQuestions(newQuestion3);
 
 // Start quiz
 beginQuizBtn.addEventListener("click", beginQuiz);
