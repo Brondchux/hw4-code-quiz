@@ -125,6 +125,7 @@ main section .fancy-button {
 	padding: 5px;
 	margin-top: 5%;
 	text-align: center;
+	border-radius: 5px;
 }
 
 footer {

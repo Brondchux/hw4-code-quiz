@@ -21,7 +21,7 @@ var timerCountdown = document.querySelector("#timer-countdown");
 // DATA ====================================================
 var questionsArray = [];
 var highscoreArray = [];
-var totalAllowedTime = 3; // Will be set to 1hr later
+var totalAllowedTime = 60; // Will be set to 1hr later
 var userCurrentScore = 0;
 var questionIndex = 0;
 var newQuestion = {
@@ -100,6 +100,12 @@ function beginQuiz(event) {
 	var nextQuestionBtn = document.querySelector("#next-button");
 	if (nextQuestionBtn) {
 		nextQuestionBtn.addEventListener("click", compareAnswers);
+	}
+
+	// Store user initials
+	var saveInitialsBtnCall = document.querySelector("#save-button");
+	if (saveInitialsBtnCall) {
+		saveInitialsBtnCall.addEventListener("click", storeUserInitials);
 	}
 }
 
@@ -301,7 +307,11 @@ function quizOver() {
 }
 
 // Receive and store users initials
-function storeUserInitials() {}
+function storeUserInitials() {
+	// Retrieve the input value
+	// var userInitials = document.querySelector("#userInitials");
+	console.log("userInitials");
+}
 
 // INITIALIZATION ==========================================
 
