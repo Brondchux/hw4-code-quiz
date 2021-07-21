@@ -75,10 +75,28 @@ main section button {
 }
 
 main section ul {
+	background-color: var(--beige-color);
+	border-radius: 10px;
+	padding: 20px;
 	text-align: left;
-	margin-top: 5%;
+	margin: 5% auto;
+}
+
+main section ul li {
+	margin: 10px auto;
+}
+
+/* select and style all tags inside the li element */
+main section ul li > * {
+	cursor: pointer;
 }
 
 main section ul li input[type="radio"] {
 	margin-right: 10px;
+}
+
+main section .next-button {
+	background-color: var(--blackish-color);
+	color: var(--beige-color);
+	margin-left: 0;
 }

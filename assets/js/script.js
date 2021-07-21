@@ -19,10 +19,11 @@ var timerCountdown = document.querySelector("#timer-countdown");
 
 // DATA ====================================================
 var questionsArray = [];
+var highscoreArray = [];
 var totalAllowedTime = 60; // Will be set to 1hr later
 var questionIndex = 0;
 var newQuestion = {
-	questionId: 1,
+	questionId: "Q1",
 	questionText: "What is an Array?",
 	correctAnswer: "A",
 	answerOptions: [
@@ -50,6 +51,12 @@ function beginQuiz(event) {
 
 	// Display question
 	fetchQuestion();
+
+	// Compare answers
+	var nextQuestionBtn = document.querySelector(".next-button");
+	if (nextQuestionBtn) {
+		nextQuestionBtn.addEventListener("click", compareAnswers);
+	}
 }
 
 // Create the countdown timer
@@ -95,7 +102,7 @@ function fetchQuestion() {
 	// Create the <ul> tag
 	var ulEl = document.createElement("ul");
 
-	// Display the question options
+	// Loop through and display the question options
 	currentQuestion.answerOptions.forEach((answerElement) => {
 		// Create the li tag
 		var liEl = document.createElement("li");
@@ -111,7 +118,7 @@ function fetchQuestion() {
 		var radioEl = document.createElement("input");
 		radioEl.setAttribute("type", "radio");
 		radioEl.setAttribute("id", answerElement.optionLabel);
-		radioEl.setAttribute("name", currentQuestion.questionText);
+		radioEl.setAttribute("name", currentQuestion.questionId);
 		radioEl.setAttribute("value", answerElement.optionLabel);
 		radioEl.setAttribute("data-selected", answerElement.optionLabel);
 
@@ -122,18 +129,57 @@ function fetchQuestion() {
 		// Build the ul element
 		ulEl.appendChild(liEl);
 	});
-
 	console.log(ulEl);
 
 	// Place the ul element
 	quizBodyEl.innerHTML = "";
 	quizBodyEl.appendChild(ulEl);
 
+	// Create the next question button
+	var nextQuestionBtn = document.createElement("button");
+	nextQuestionBtn.setAttribute("class", "next-button");
+	nextQuestionBtn.setAttribute("type", "button");
+
+	// Build the next question button
+	nextQuestionBtn.textContent = "Next Question";
+
+	// Place the next question button
+	quizBodyEl.appendChild(nextQuestionBtn);
+
 	// Increment the question index for next question
 	questionIndex++;
 }
 
+// Compare users result and update highscore
+function compareAnswers(userSelection, questionId) {
+	// Use the question id to fetch the question object
+	var questionObject = questionsArray.find(
+		(question) => question.questionId === questionId
+	);
+
+	// Capitalize both values
+	var theUserSelection = userSelection.toUpperCase();
+	var theCorrectAnswer = questionObject.correctAnswer.toUpperCase();
+
+	// Compare both values
+	if (theUserSelection === theCorrectAnswer) {
+		// Update highscore
+		updateHighscore();
+	}
+}
+
+// Modify the users highscore
+function updateHighscore() {
+	var highscoreObj = {
+		user: "",
+		score: 0,
+	};
+	highscoreArray.push(highscoreObj);
+	console.log(highscoreArray);
+}
+
 // INITIALIZATION ==========================================
+
 // Load questions
 loadQuestions(newQuestion);
 
