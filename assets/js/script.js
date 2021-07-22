@@ -306,6 +306,21 @@ function quizOver() {
 
 		// Add the function to trigger when clicked
 		saveInitialsBtn.addEventListener("click", storeUserInitials);
+
+		// Create the play again button
+		var playAgainBtn = document.createElement("button");
+		playAgainBtn.setAttribute("class", "fancy-button");
+		playAgainBtn.setAttribute("id", "replay-button");
+		playAgainBtn.setAttribute("type", "button");
+
+		// Build the play again button
+		playAgainBtn.textContent = "Play Again";
+
+		// Place the tags on to the DOM
+		quizBodyEl.appendChild(playAgainBtn);
+
+		// Add the function to trigger when clicked
+		playAgainBtn.addEventListener("click", refreshPage);
 	}
 }
 
@@ -359,6 +374,11 @@ function storeHighscores(newScoresArray) {
 // Fetch our highscores from local storage
 function fetchHighscores() {
 	return JSON.parse(localStorage.getItem("highscores"));
+}
+
+// Refresh page to play agian (hack method)
+function refreshPage() {
+	return location.reload();
 }
 
 // INITIALIZATION ==========================================
