@@ -308,20 +308,8 @@ function quizOver() {
 		// Add the function to trigger when clicked
 		saveInitialsBtn.addEventListener("click", storeUserInitials);
 
-		// Create the play again button
-		var playAgainBtn = document.createElement("button");
-		playAgainBtn.setAttribute("class", "fancy-button");
-		playAgainBtn.setAttribute("id", "replay-button");
-		playAgainBtn.setAttribute("type", "button");
-
-		// Build the play again button
-		playAgainBtn.textContent = "Play Again";
-
-		// Place the tags on to the DOM
-		quizBodyEl.appendChild(playAgainBtn);
-
-		// Add the function to trigger when clicked
-		playAgainBtn.addEventListener("click", refreshPage);
+		// Display a replay button
+		createPlayAgainBtn("Play Again");
 	}
 }
 
@@ -361,6 +349,12 @@ function storeUserInitials() {
 
 	// Store local storage
 	storeHighscores(combinedScoresArray);
+
+	// Reset the input initials field
+	document.querySelector("#userInitials").value = "";
+
+	// Display the highscore board
+	showHighscoreBoard();
 }
 
 // Save our highscores to local storage
@@ -432,6 +426,26 @@ function showHighscoreBoard() {
 	// Place the ul elements on DOM
 	quizBodyEl.innerHTML = "";
 	quizBodyEl.appendChild(ulEl);
+
+	// Display start game button
+	createPlayAgainBtn("Start Game");
+}
+
+function createPlayAgainBtn(buttonText) {
+	// Create the play again button
+	var playAgainBtn = document.createElement("button");
+	playAgainBtn.setAttribute("class", "fancy-button");
+	playAgainBtn.setAttribute("id", "replay-button");
+	playAgainBtn.setAttribute("type", "button");
+
+	// Build the play again button
+	playAgainBtn.textContent = buttonText;
+
+	// Place the tags on to the DOM
+	quizBodyEl.appendChild(playAgainBtn);
+
+	// Add the function to trigger when clicked
+	playAgainBtn.addEventListener("click", refreshPage);
 }
 
 // INITIALIZATION ==========================================
