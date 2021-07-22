@@ -389,8 +389,8 @@ function showHighscoreBoard() {
 	var ulEl = document.createElement("ul");
 	ulEl.setAttribute("class", "highscore-ul");
 
-	// Loop through and display each user object from the highscores array
-	for (var i = 0; i < fetchedHighscores.length; i++) {
+	// Loop through and display each user object from the highscores array in descending order
+	for (var i = fetchedHighscores.length - 1; i > 0; i--) {
 		// Each user object
 		var fetchedUserScore = fetchedHighscores[i];
 
