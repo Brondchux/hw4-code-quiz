@@ -227,3 +227,30 @@ footer p {
 		height: 10vh;
 	}
 }
+
+/* Media query for screens below 400px */
+@media screen and (max-width: 400px) {
+	h1 {
+		font-size: 1.7rem !important;
+	}
+
+	h2 {
+		font-size: 1.4rem !important;
+	}
+
+	h3 {
+		font-size: 1.1rem !important;
+	}
+
+	nav {
+		flex-direction: column;
+		text-align: center;
+	}
+
+	nav .timer {
+		text-align: center;
+		margin-top: 2%;
+		border-top: 1px solid var(--beige-color);
+		padding-top: 1%;
+	}
+}
