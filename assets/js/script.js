@@ -18,6 +18,7 @@ var quizBodyEl = document.querySelector(".quiz-body");
 var beginQuizBtn = document.querySelector("#begin-quiz");
 var highscoreBoard = document.querySelector("#highscore-board");
 var timerCountdown = document.querySelector("#timer-countdown");
+var displayHighscore = document.querySelector("#display-highscore");
 
 // DATA ====================================================
 var questionsArray = [];
@@ -381,6 +382,58 @@ function refreshPage() {
 	return location.reload();
 }
 
+// Show high score board
+function showHighscoreBoard() {
+	// Fetch the highscores from local storage
+	var fetchedHighscores = fetchHighscores();
+	if (!fetchHighscores) return;
+
+	// Display score board heading
+	quizHeadingEl.innerHTML = `<h2>Highscore Board</h2>`;
+
+	// Create the <ul> tag
+	var ulEl = document.createElement("ul");
+	ulEl.setAttribute("class", "highscore-ul");
+
+	// Loop through and display each user object from the highscores array
+	for (var i = 0; i < fetchedHighscores.length; i++) {
+		// Each user object
+		var fetchedUserScore = fetchedHighscores[i];
+
+		// Create the li tag
+		var liEl = document.createElement("li");
+		liEl.setAttribute("class", "highscore-li");
+
+		// Create the div tag
+		var divEl = document.createElement("div");
+		divEl.setAttribute("class", "highscore-div");
+
+		// Create the initials p tag
+		var pInitialsEl = document.createElement("p");
+		pInitialsEl.setAttribute("class", "highscore-initials");
+
+		// Create the score p tag
+		var pScoreEl = document.createElement("p");
+		pScoreEl.setAttribute("class", "highscore-score");
+
+		// Build the tags
+		pInitialsEl.innerHTML = `${
+			i + 1
+		}. ${fetchedUserScore.initials.toUpperCase()}`;
+		pScoreEl.innerHTML = `${fetchedUserScore.score}`;
+
+		// Place tags on DOM
+		divEl.appendChild(pInitialsEl);
+		divEl.appendChild(pScoreEl);
+		liEl.appendChild(divEl);
+		ulEl.appendChild(liEl);
+	}
+
+	// Place the ul elements on DOM
+	quizBodyEl.innerHTML = "";
+	quizBodyEl.appendChild(ulEl);
+}
+
 // INITIALIZATION ==========================================
 
 // Load questions
@@ -390,3 +443,6 @@ loadQuestions(newQuestion3);
 
 // Start quiz
 beginQuizBtn.addEventListener("click", beginQuiz);
+
+// Display highscore
+displayHighscore.addEventListener("click", showHighscoreBoard);

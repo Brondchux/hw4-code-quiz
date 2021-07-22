@@ -27,6 +27,7 @@ main {
 	display: flex;
 	flex-direction: column;
 	height: 85vh;
+	overflow-y: scroll;
 }
 
 nav {
@@ -38,6 +39,18 @@ nav {
 
 nav .highscore {
 	flex: 1;
+}
+
+nav .highscore p {
+	display: inline;
+}
+
+nav .highscore p:hover {
+	cursor: pointer;
+	color: var(--blackish-color);
+	background-color: var(--white-color);
+	border-radius: 3px;
+	padding: 2px;
 }
 
 nav .timer {
@@ -140,6 +153,41 @@ footer p {
 	font-size: 0.8rem;
 }
 
+/* Styling for the highscore board */
+.highscore-ul {
+	display: flex;
+	flex-direction: column;
+}
+
+.highscore-li {
+	flex: 1;
+	margin: 2px 0;
+}
+
+.highscore-div {
+	display: flex;
+	font-size: 1.3rem;
+	cursor: inherit;
+}
+
+.highscore-initials {
+	flex: 3;
+	font-size: inherit;
+	border-bottom: 2px dashed var(--white-color);
+}
+
+.highscore-score {
+	flex: 1;
+	text-align: right;
+	font-size: inherit;
+	background-color: var(--blackish-color);
+	color: var(--white-color);
+	padding: 5px;
+	margin: auto;
+	text-align: center;
+	border-radius: 5px;
+}
+
 /* Media query for screens below 760px */
 @media screen and (max-width: 760px) {
 	* {
@@ -162,6 +210,10 @@ footer p {
 		padding: 2%;
 	}
 
+	main {
+		height: 80vh;
+	}
+
 	main section {
 		margin: inherit;
 		padding: 0 5%;
@@ -169,5 +221,9 @@ footer p {
 
 	.quiz-heading {
 		margin-top: 10%;
+	}
+
+	footer {
+		height: 10vh;
 	}
 }
