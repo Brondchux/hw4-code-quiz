@@ -59,25 +59,25 @@ THEN I can save my initials and my score
 
 ## Mock-Up Preview
 
-1. The clip below shows the functionality of what my completed code quiz should perform like:
-
-![This is a preview video clip of my code quiz project in a gif file format.](./assets/images/code-quiz-demo.gif)
-
-2. The photo below is what the begin-quiz section should look like when completed
+1. The photo below is what the begin-quiz section should look like when completed
 
 ![This is a screenshot of the begin-quiz section of this code quiz project.](./assets/images/code-quiz-begin.png)
 
-3. The photo below is what a quiz-question section should look like when completed
+2. The photo below is what a quiz-question section should look like when completed
 
 ![This is a screenshot of a quiz-question section in this code quiz project.](./assets/images/code-quiz-question.png)
 
-4. The photo below is what the save-initials section should look like when completed
+3. The photo below is what the save-initials section should look like when completed
 
 ![This is a screenshot of the save-initials section of this code quiz project.](./assets/images/code-quiz-save.png)
 
-5. The photo below is what the quiz-highscore section should look like when completed
+4. The photo below is what the quiz-highscore section should look like when completed
 
 ![This is a screenshot of the quiz-highscore section of this code quiz project.](./assets/images/code-quiz-highscores.png)
+
+5. The clip below shows the functionality of what my completed code quiz should perform like:
+
+![This is a preview video clip of my code quiz project in a gif file format.](./assets/images/code-quiz-demo.gif)
 
 ---
 
